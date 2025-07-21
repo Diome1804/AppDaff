@@ -1,0 +1,24 @@
+{
+    "name": "pmt/projet",
+    "autoload": {
+        "psr-4": {
+            "App\\Config\\": "app/config/",
+            "App\\Core\\": "app/core/",
+            "App\\Core\\Abstract\\": "app/core/abstract/",
+            "App\\Core\\Middlewares\\": "app/core/middlewares/",
+            "Src\\Controller\\": "src/controller/",
+            "Src\\Entity\\": "src/entity/",
+            "Src\\Repository\\": "src/repository/",
+            "Src\\Service\\": "src/service/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Abdoulaye Diome",
+            "email": "lextimide@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
