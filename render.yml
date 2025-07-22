@@ -3,9 +3,9 @@ services:
   - type: web
     name: appdaf-api
     env: docker
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./dockerfile
     envVars:
       - key: PORT
-        value: 80
+        value: 8000
       - key: DATABASE_URL
         value: postgresql://postgres_v119_user:BV6rAIpMA3rA7Z8qUb60oJiNvgmLbjqr@dpg-dlv8fnqdb04c73fa50bg-a.oregon-postgres.render.com/postgres_v119
