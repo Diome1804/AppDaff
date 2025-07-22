@@ -1,7 +1,7 @@
 ### Tests API AppDAF
 ### Extension: REST Client pour VS Code
 
-@baseUrl = http://localhost:8081
+@baseUrl = https://appdaff-zwqf.onrender.com
 
 ### 1. Test de base - Page d'accueil
 GET {{baseUrl}}/
