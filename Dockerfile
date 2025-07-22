@@ -1,4 +1,4 @@
-FROM php:8.3-apache
+FROM php:8.3-cli
 
 # Install extensions pour PostgreSQL
 RUN apt-get update && apt-get install -y \
@@ -12,22 +12,18 @@ RUN apt-get update && apt-get install -y \
 # Installer Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Configuration Apache
-RUN a2enmod rewrite
-
 # Copier le code de l'application
-WORKDIR /var/www/html
-COPY . /var/www/html/
+WORKDIR /var/www
+COPY . /var/www/
 
 # Installer les dépendances PHP
 RUN composer install --no-dev --optimize-autoloader
 
 # Configuration des permissions
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
+RUN chmod -R 755 /var/www
 
 # Port pour Render
-EXPOSE 80
+EXPOSE 8000
 
-# Démarrer Apache en mode foreground
-CMD ["apache2-foreground"]
+# Démarrer le serveur PHP intégré
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
