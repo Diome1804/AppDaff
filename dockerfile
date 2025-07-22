@@ -26,5 +26,5 @@ RUN chown -R www-data:www-data /var/www
 
 EXPOSE 8000
 
-# Démarrer le serveur intégré PHP pour Render
-CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
+# Démarrer le serveur intégré PHP pour Render avec routage
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "public", "public/router.php"]

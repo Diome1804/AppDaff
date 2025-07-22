@@ -139,20 +139,12 @@ class CitoyenController extends AbstractController
     
     public function test()
     {
-        // Debug temporaire
-        echo "<h1>Debug test()</h1>";
-        echo "<p>Méthode test() appelée avec succès!</p>";
-        
         $testFile = __DIR__ . '/../../public/test.html';
-        echo "<p>Chemin testé: $testFile</p>";
-        echo "<p>Fichier existe: " . (file_exists($testFile) ? 'OUI' : 'NON') . "</p>";
         
         if (file_exists($testFile)) {
-            echo "<h2>Contenu du fichier test.html:</h2>";
             $testHtml = file_get_contents($testFile);
             echo $testHtml;
         } else {
-            echo "<h2>Fallback - Interface de test:</h2>";
             // Fallback: créer une page de test simple
             echo '<!DOCTYPE html>
 <html>
