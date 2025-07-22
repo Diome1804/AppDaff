@@ -8,8 +8,8 @@ $dotenv->load();
 
 
 //ici on defini les constantes qu on va utiliser dans notre application
-define('DB_USER', $_ENV['DB_USER']);
-define('DB_PASSWORD', $_ENV['DB_PASSWORD']);
+define('DB_USER', $_ENV['DB_USER'] ?? '');
+define('DB_PASSWORD', $_ENV['DB_PASSWORD'] ?? '');
 define('APP_URL', $_ENV['APP_URL']);
 define('dsn', $_ENV['DATABASE_URL'] ?? $_ENV['dsn']);
 

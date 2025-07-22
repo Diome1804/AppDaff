@@ -22,6 +22,9 @@ RUN composer install --no-dev --optimize-autoloader
 # Configuration des permissions
 RUN chmod -R 755 /var/www
 
+# Vérifier que les extensions PostgreSQL sont installées
+RUN php -m | grep pdo_pgsql
+
 # Port pour Render
 EXPOSE 8000
 
