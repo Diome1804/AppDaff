@@ -33,6 +33,7 @@ class CitoyenController extends AbstractController
                 'code' => 405,
                 'message' => 'Méthode non autorisée'
             ], 405);
+            return;
         }
 
         // Récupérer les données JSON
@@ -45,6 +46,7 @@ class CitoyenController extends AbstractController
                 'code' => 400,
                 'message' => 'Données JSON invalides'
             ], 400);
+            return;
         }
 
         // Validation du NCI
@@ -60,6 +62,7 @@ class CitoyenController extends AbstractController
                 'message' => 'Données invalides',
                 'errors' => Validator::getErrors()
             ], 400);
+            return;
         }
 
         // Récupération des informations de la requête
@@ -85,6 +88,7 @@ class CitoyenController extends AbstractController
                 'code' => 405,
                 'message' => 'Méthode non autorisée'
             ], 405);
+            return;
         }
 
         $input = json_decode(file_get_contents('php://input'), true);
@@ -105,6 +109,7 @@ class CitoyenController extends AbstractController
                 'message' => 'Données invalides',
                 'errors' => Validator::getErrors()
             ], 400);
+            return;
         }
 
         $success = $this->citoyenService->creerCitoyen($input);
