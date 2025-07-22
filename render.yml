@@ -1,0 +1,11 @@
+# Configuration pour Render.com
+services:
+  - type: web
+    name: appdaf-api
+    env: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: DB_HOST
+        value: db
