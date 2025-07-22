@@ -6,6 +6,6 @@ services:
     dockerfilePath: ./Dockerfile
     envVars:
       - key: PORT
-        value: 8000
+        value: 80
       - key: DATABASE_URL
         value: postgresql://postgres_v119_user:BV6rAIpMA3rA7Z8qUb60oJiNvgmLbjqr@dpg-dlv8fnqdb04c73fa50bg-a.oregon-postgres.render.com/postgres_v119
