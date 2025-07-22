@@ -24,7 +24,7 @@ POST {{baseUrl}}/api/citoyen/rechercher
 Content-Type: application/json
 
 {
-    "nci": "1234567890"
+    "nci": "1234567890123"
 }
 
 ### 4. Rechercher un citoyen inexistant (ERROR)
