@@ -1,8 +1,10 @@
 <?php
 
-namespace Srx\Entity;
+namespace Src\Entity;
 
-class Journal
+use App\Core\Abstract\AbstractEntity;
+
+class Journal extends AbstractEntity
 {
     private int $id ;
     private string $cni;
@@ -13,8 +15,8 @@ class Journal
 
     public function __construct(string $cni, string $ipAdresse, string $localisation,string $dateRecherche,Statut $statut)
     {
-        $this->nci = $cni;
-        $this->ip = $ipAdresse;
+        $this->cni = $cni;
+        $this->ipAdresse = $ipAdresse;
         $this->localisation = $localisation;
         $this->dateRecherche = $dateRecherche;
         $this->statut = $statut;
@@ -140,4 +142,29 @@ class Journal
 
         return $this;
     }
+
+     public static function toObject(array $data): static
+     {
+         $statut = $data['statut'] instanceof Statut ? $data['statut'] : Statut::from($data['statut']);
+         
+         return new static(
+             $data['cni'],
+             $data['ip_adresse'],
+             $data['localisation'],
+             $data['date_recherche'],
+             $statut
+         );
+     }
+
+     public function toArray(): array
+     {
+         return [
+             'id' => $this->id ?? null,
+             'cni' => $this->cni,
+             'ipAdresse' => $this->ipAdresse,
+             'localisation' => $this->localisation,
+             'dateRecherche' => $this->dateRecherche,
+             'statut' => $this->statut->value
+         ];
+     }
 }

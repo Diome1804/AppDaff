@@ -19,4 +19,8 @@ RUN chown -R www-data:www-data /var/www
 EXPOSE 9000
 
 # Démarrer le serveur intégré PHP
-CMD ["php", "-S", "0.0.0.0:8081", "-t", "public"]
+CMD ["php", "-S", "0.0.0.0:8001", "-t", "public"]
+
+
+HOST_NAME 
+DB_PORT

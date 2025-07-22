@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API AppDAF</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
+        .container { margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+        input, button { padding: 10px; margin: 5px; }
+        button { background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .result { margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 4px; white-space: pre-wrap; }
+        .error { background: #f8d7da; color: #721c24; }
+        .success { background: #d4edda; color: #155724; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test API AppDAF</h1>
+    
+    <div class="container">
+        <h2>🔍 Rechercher un citoyen par NCI</h2>
+        <input type="text" id="nciInput" placeholder="Entrez le NCI (ex: 1234567890)" value="1234567890">
+        <button onclick="rechercherCitoyen()">Rechercher</button>
+        <div id="searchResult" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="container">
+        <h2>➕ Créer un nouveau citoyen</h2>
+        <input type="text" id="nomInput" placeholder="Nom" value="Test">
+        <input type="text" id="prenomInput" placeholder="Prénom" value="User">
+        <input type="text" id="cniInput" placeholder="CNI" value="9999999999999">
+        <input type="date" id="dateInput" value="1990-01-01">
+        <input type="text" id="lieuInput" placeholder="Lieu de naissance" value="Dakar">
+        <button onclick="creerCitoyen()">Créer</button>
+        <div id="createResult" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="container">
+        <h2>📊 Citoyens de test disponibles</h2>
+        <ul>
+            <li><strong>1234567890</strong> - Amina Diop (née le 1990-05-15 à Dakar)</li>
+            <li><strong>0987654321</strong> - Ibrahim Sow (né le 1985-11-22 à Thiès)</li>
+            <li><strong>1122334455</strong> - Fatou Kane (née le 1995-03-08 à Saint-Louis)</li>
+        </ul>
+    </div>
+
+    <script>
+        // Configuration API
+        const API_BASE = window.location.origin;
+        
+        async function rechercherCitoyen() {
+            const nci = document.getElementById('nciInput').value;
+            const resultDiv = document.getElementById('searchResult');
+            
+            if (!nci) {
+                showResult(resultDiv, 'Veuillez entrer un NCI', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/citoyen/rechercher`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ nci: nci })
+                });
+                
+                const data = await response.json();
+                
+                if (data.statut === 'success') {
+                    const formatted = `✅ Citoyen trouvé !\n\n` +
+                        `NCI: ${data.data.nci}\n` +
+                        `Nom: ${data.data.nom}\n` +
+                        `Prénom: ${data.data.prenom}\n` +
+                        `Date de naissance: ${data.data.dateNaissance}\n` +
+                        `Lieu de naissance: ${data.data.lieuNaissance}\n` +
+                        `Photo: ${data.data.photoIdentiteUrl}\n\n` +
+                        `Message: ${data.message}`;
+                    showResult(resultDiv, formatted, 'success');
+                } else {
+                    showResult(resultDiv, `❌ ${data.message}\n\nCode: ${data.code}`, 'error');
+                }
+            } catch (error) {
+                showResult(resultDiv, `❌ Erreur de connexion: ${error.message}`, 'error');
+            }
+        }
+        
+        async function creerCitoyen() {
+            const resultDiv = document.getElementById('createResult');
+            
+            const data = {
+                nom: document.getElementById('nomInput').value,
+                prenom: document.getElementById('prenomInput').value,
+                cni: document.getElementById('cniInput').value,
+                dateNaissance: document.getElementById('dateInput').value,
+                lieuNaissance: document.getElementById('lieuInput').value
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/citoyen`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.statut === 'success') {
+                    showResult(resultDiv, `✅ ${result.message}\n\nCitoyen créé: ${data.prenom} ${data.nom}`, 'success');
+                } else {
+                    showResult(resultDiv, `❌ ${result.message}`, 'error');
+                }
+            } catch (error) {
+                showResult(resultDiv, `❌ Erreur: ${error.message}`, 'error');
+            }
+        }
+        
+        function showResult(element, message, type) {
+            element.textContent = message;
+            element.className = `result ${type}`;
+            element.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

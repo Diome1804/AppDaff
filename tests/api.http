@@ -1,0 +1,61 @@
+### Tests API AppDAF
+### Extension: REST Client pour VS Code
+
+@baseUrl = http://localhost:8081
+
+### 1. Test de base - Page d'accueil
+GET {{baseUrl}}/
+
+### 2. Créer un citoyen de test
+POST {{baseUrl}}/api/citoyen
+Content-Type: application/json
+
+{
+    "nom": "Diome", 
+    "prenom": "Abdoulaye",
+    "cni": "1234567890123",
+    "dateNaissance": "1990-05-15",
+    "lieuNaissance": "Dakar",
+    "photoIdentiteUrl": "https://example.com/photo.jpg"
+}
+
+### 3. Rechercher un citoyen existant (SUCCESS)
+POST {{baseUrl}}/api/citoyen/rechercher
+Content-Type: application/json
+
+{
+    "nci": "1234567890"
+}
+
+### 4. Rechercher un citoyen inexistant (ERROR)
+POST {{baseUrl}}/api/citoyen/rechercher
+Content-Type: application/json
+
+{
+    "nci": "9999999999999"
+}
+
+### 5. Test validation - NCI trop court
+POST {{baseUrl}}/api/citoyen/rechercher
+Content-Type: application/json
+
+{
+    "nci": "123"
+}
+
+### 6. Test validation - NCI manquant
+POST {{baseUrl}}/api/citoyen/rechercher
+Content-Type: application/json
+
+{
+    "nom": "test"
+}
+
+### 7. Test méthode invalide (GET au lieu de POST)
+GET {{baseUrl}}/api/citoyen/rechercher
+
+### 8. Test JSON invalide
+POST {{baseUrl}}/api/citoyen/rechercher
+Content-Type: application/json
+
+invalid json content

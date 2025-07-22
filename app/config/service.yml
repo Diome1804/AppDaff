@@ -1,0 +1,23 @@
+# Configuration des dépendances de l'application
+# Structure: catégorie -> nom_service -> classe
+
+core:
+  database: App\Core\Database
+  session: App\Core\Session
+  validator: App\Core\Validator
+  router: App\Core\Router
+  middleware: App\Core\MiddlewareLoader
+
+abstract:
+  abstractRepo: App\Core\Abstract\AbstractRepository
+  abstractController: App\Core\Abstract\AbstractController
+  abstractEntity: App\Core\Abstract\AbstractEntity
+
+services:
+  citoyenServ: Src\Service\CitoyenService
+  cloudServ: Src\Service\CloudService
+  journalServ: Src\Service\JournalService
+
+repository:
+  citoyenRepo: Src\Repository\CitoyenRepository
+  journalRepo: Src\Repository\JournalRepository
