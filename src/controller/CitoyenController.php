@@ -139,8 +139,118 @@ class CitoyenController extends AbstractController
     
     public function test()
     {
-        $testHtml = file_get_contents(__DIR__ . '/../../public/test.html');
-        echo $testHtml;
+        $filePath = __DIR__ . '/../../public/test.html';
+        if (file_exists($filePath)) {
+            $testHtml = file_get_contents($filePath);
+            echo $testHtml;
+        } else {
+            // Fallback vers l'interface directement intégrée
+            echo '<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API AppDAF</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, button { padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        button { background: #007bff; color: white; cursor: pointer; }
+        .result { margin-top: 20px; padding: 15px; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏛️ Test API AppDAF</h1>
+        
+        <h2>🔍 Rechercher un citoyen par NCI</h2>
+        <div class="form-group">
+            <input type="text" id="nci" placeholder="Entrez le NCI (ex: 1234567890)" value="1234567890">
+            <button onclick="rechercherCitoyen()">Rechercher</button>
+        </div>
+        <div id="result-recherche"></div>
+        
+        <h2>➕ Créer un nouveau citoyen</h2>
+        <div class="form-group">
+            <input type="text" id="nom" placeholder="Nom" value="Test">
+            <input type="text" id="prenom" placeholder="Prénom" value="User">
+            <input type="text" id="cni" placeholder="CNI" value="9999999999">
+            <input type="date" id="dateNaissance" value="1990-01-01">
+            <input type="text" id="lieuNaissance" placeholder="Lieu de naissance" value="Dakar">
+            <button onclick="creerCitoyen()">Créer</button>
+        </div>
+        <div id="result-creation"></div>
+    </div>
+
+    <script>
+        async function rechercherCitoyen() {
+            const nci = document.getElementById("nci").value;
+            const resultDiv = document.getElementById("result-recherche");
+            
+            try {
+                const response = await fetch("/api/citoyen/rechercher", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ nci })
+                });
+                
+                const data = await response.json();
+                
+                if (data.statut === "success") {
+                    resultDiv.innerHTML = `<div class="result success">
+                        <h3>✅ Citoyen trouvé !</h3>
+                        <p><strong>NCI:</strong> ${data.data.nci}</p>
+                        <p><strong>Nom:</strong> ${data.data.nom}</p>
+                        <p><strong>Prénom:</strong> ${data.data.prenom}</p>
+                        <p><strong>Date de naissance:</strong> ${data.data.dateNaissance}</p>
+                        <p><strong>Lieu de naissance:</strong> ${data.data.lieuNaissance}</p>
+                        <p><strong>Message:</strong> ${data.message}</p>
+                    </div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="result error">❌ ${data.message}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="result error">❌ Erreur: ${error.message}</div>`;
+            }
+        }
+        
+        async function creerCitoyen() {
+            const data = {
+                nom: document.getElementById("nom").value,
+                prenom: document.getElementById("prenom").value,
+                cni: document.getElementById("cni").value,
+                dateNaissance: document.getElementById("dateNaissance").value,
+                lieuNaissance: document.getElementById("lieuNaissance").value
+            };
+            
+            const resultDiv = document.getElementById("result-creation");
+            
+            try {
+                const response = await fetch("/api/citoyen", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.statut === "success") {
+                    resultDiv.innerHTML = `<div class="result success">✅ ${result.message}</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="result error">❌ ${result.message}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="result error">❌ Erreur: ${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>';
+        }
     }
     
     public function create() {}
