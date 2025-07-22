@@ -23,6 +23,10 @@ RUN composer install --no-dev --optimize-autoloader
 RUN chmod -R 755 /var/www/html
 RUN chown -R www-data:www-data /var/www/html
 
+# Configuration Apache pour pointer vers le dossier public
+RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
+RUN a2enmod rewrite
+
 # Vérifier que les extensions PostgreSQL sont installées
 RUN php -m | grep pdo_pgsql
 
