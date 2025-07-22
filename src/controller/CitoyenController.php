@@ -49,9 +49,9 @@ class CitoyenController extends AbstractController
             return;
         }
 
-        // Validation du NCI
+        // Validation du NCI (13 chiffres pour le Sénégal)
         $rules = [
-            'nci' => ['required', 'string', ['minLength', 10]]
+            'nci' => ['required', 'string', ['minLength', 13], ['maxLength', 13]]
         ];
 
         if (!$this->validator->validate($input, $rules)) {
@@ -134,7 +134,14 @@ class CitoyenController extends AbstractController
     // Méthodes obligatoires de AbstractController
     public function index() 
     {
-        echo "<h1>API AppDAF</h1><p>Utilisez <a href='/test'>la page de test</a> pour tester l'API.</p>";
+        echo "<h1>🏛️ API AppDAF</h1>
+        <p>Utilisez <a href='/test'>la page de test</a> pour tester l'API.</p>
+        <h3>📊 Citoyens de test disponibles</h3>
+        <ul>
+            <li><strong>1234567890123</strong> - Amina Diop (née le 1990-05-15 à Dakar)</li>
+            <li><strong>0987654321098</strong> - Ibrahim Sow (née le 1985-11-22 à Thiès)</li>  
+            <li><strong>1122334455667</strong> - Fatou Kane (née le 1995-03-08 à Saint-Louis)</li>
+        </ul>";
     }
     
     public function test()
@@ -169,7 +176,7 @@ class CitoyenController extends AbstractController
         
         <h2>🔍 Rechercher un citoyen par NCI</h2>
         <div class="form-group">
-            <input type="text" id="nci" placeholder="Entrez le NCI (ex: 1234567890)" value="1234567890">
+            <input type="text" id="nci" placeholder="Entrez le NCI (13 chiffres)" value="1234567890123">
             <button onclick="rechercherCitoyen()">Rechercher</button>
         </div>
         <div id="result-recherche"></div>

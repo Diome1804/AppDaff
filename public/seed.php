@@ -13,24 +13,28 @@ try {
         ]
     );
 
-    // Insertion des citoyens de test
+    // Effacer les anciennes données
+    $pdo->exec("DELETE FROM journal");
+    $pdo->exec("DELETE FROM citoyen");
+
+    // Insertion des citoyens de test avec CNI sénégalais (13 chiffres)
     $citoyens = [
-        ['1234567890', 'Diop', 'Amina', '1990-05-15', 'Dakar', 'cni_amina.jpg'],
-        ['0987654321', 'Sow', 'Ibrahim', '1985-11-22', 'Thiès', 'cni_ibrahim.jpg'],
-        ['1122334455', 'Kane', 'Fatou', '1995-03-08', 'Saint-Louis', 'cni_fatou.jpg']
+        ['1234567890123', 'Diop', 'Amina', '1990-05-15', 'Dakar', 'cni_amina.jpg'],
+        ['0987654321098', 'Sow', 'Ibrahim', '1985-11-22', 'Thiès', 'cni_ibrahim.jpg'],
+        ['1122334455667', 'Kane', 'Fatou', '1995-03-08', 'Saint-Louis', 'cni_fatou.jpg']
     ];
 
-    $stmt = $pdo->prepare("INSERT INTO citoyen (cni, nom, prenom, date_naissance, lieu_naissance, photo_identite_url) VALUES (?, ?, ?, ?, ?, ?) ON CONFLICT (cni) DO NOTHING");
+    $stmt = $pdo->prepare("INSERT INTO citoyen (cni, nom, prenom, date_naissance, lieu_naissance, photo_identite_url) VALUES (?, ?, ?, ?, ?, ?)");
 
     foreach ($citoyens as $citoyen) {
         $stmt->execute($citoyen);
     }
 
-    // Insertion dans le journal
+    // Insertion dans le journal avec les nouvelles CNI
     $journaux = [
-        ['192.168.1.1', '1234567890', 'succes'],
-        ['192.168.1.2', '0987654321', 'error'],
-        ['192.168.1.4', '1122334455', 'succes'],
+        ['192.168.1.1', '1234567890123', 'succes'],
+        ['192.168.1.2', '0987654321098', 'error'],
+        ['192.168.1.4', '1122334455667', 'succes'],
     ];
 
     $stmtJournal = $pdo->prepare("INSERT INTO journal (ip_adresse, cni, statut, localisation) VALUES (?, ?, ?, 'Dakar, Sénégal')");
