@@ -43,7 +43,18 @@ class Router
             $controller->$method();
         } else {
             http_response_code(404);
-            echo "<h1>404 - Page Not Found</h1>";
+            
+            // Check if it's an API request
+            if (strpos($currentUri, '/api/') === 0) {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'API endpoint not found',
+                    'error' => '404 - Endpoint Not Found'
+                ]);
+            } else {
+                echo "<h1>404 - Page Not Found</h1>";
+            }
         }
     }
 

@@ -8,7 +8,7 @@ $dotenv->load();
 
 
 //ici on defini les constantes qu on va utiliser dans notre application
-define('APP_URL', $_ENV['APP_URL']);
+define('APP_URL', $_ENV['APP_URL'] ?? 'http://localhost:8000');
 
 // Construction du DSN depuis les variables Render ou fallback
 if (isset($_ENV['DB_HOST']) && isset($_ENV['DB_NAME'])) {
@@ -27,6 +27,6 @@ if (isset($_ENV['DB_HOST']) && isset($_ENV['DB_NAME'])) {
 }
 
 // Constantes pour Cloudinary
-define('CLOUDINARY_CLOUD_NAME', $_ENV['CLOUDINARY_CLOUD_NAME']);
-define('CLOUDINARY_API_KEY', $_ENV['CLOUDINARY_API_KEY']);
-define('CLOUDINARY_API_SECRET', $_ENV['CLOUDINARY_API_SECRET']);
+define('CLOUDINARY_CLOUD_NAME', $_ENV['CLOUDINARY_CLOUD_NAME'] ?? '');
+define('CLOUDINARY_API_KEY', $_ENV['CLOUDINARY_API_KEY'] ?? '');
+define('CLOUDINARY_API_SECRET', $_ENV['CLOUDINARY_API_SECRET'] ?? '');
