@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Tests API AppDAF avec cURL
-BASE_URL="http://localhost:8081"
+BASE_URL="https://appdaff-zwqf.onrender.com"
 
 echo "=== Tests API AppDAF ==="
 
