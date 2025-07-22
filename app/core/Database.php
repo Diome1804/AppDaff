@@ -15,8 +15,8 @@ class Database{
            
             $this->connection = new PDO(
               dsn,
-              DB_USER,
-              DB_PASSWORD,
+              null,
+              null,
               [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -34,6 +34,7 @@ class Database{
         }
         return self::$instance;
     }
+
     public function getConnection():PDO{
         return $this->connection;
     }

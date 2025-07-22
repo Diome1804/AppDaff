@@ -11,7 +11,7 @@ $dotenv->load();
 define('DB_USER', $_ENV['DB_USER']);
 define('DB_PASSWORD', $_ENV['DB_PASSWORD']);
 define('APP_URL', $_ENV['APP_URL']);
-define('dsn', $_ENV['dsn'] );
+define('dsn', $_ENV['DATABASE_URL'] ?? $_ENV['dsn']);
 
 // Constantes pour Cloudinary
 define('CLOUDINARY_CLOUD_NAME', $_ENV['CLOUDINARY_CLOUD_NAME']);
