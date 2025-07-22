@@ -25,9 +25,6 @@ class CitoyenController extends AbstractController
      */
     public function rechercher()
     {
-        // Debug: Log au début
-        error_log("DEBUG: Début rechercher()");
-        
         // Vérifier que c'est une requête POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $this->jsonResponse([
@@ -74,9 +71,7 @@ class CitoyenController extends AbstractController
         $localisation = $this->getLocalisation($ip);
 
         // Recherche du citoyen
-        error_log("DEBUG: Avant rechercherParNci avec NCI: $nci");
         $result = $this->citoyenService->rechercherParNci($nci, $ip, $localisation);
-        error_log("DEBUG: Résultat: " . json_encode($result));
         
         $this->jsonResponse($result, $result['code']);
     }
