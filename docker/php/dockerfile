@@ -16,4 +16,7 @@ RUN composer install
 # Droits
 RUN chown -R www-data:www-data /var/www
 
-EXPOSE 9000
+EXPOSE 8001
+
+# Démarrer le serveur intégré PHP pour Render
+CMD ["php", "-S", "0.0.0.0:8001", "-t", "public"]
