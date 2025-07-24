@@ -35,9 +35,9 @@ try {
     // 2. Table Citoyen
     echo "Insertion des données dans la table Citoyen...\n";
     $citoyens = [
-        ['1234567890', 'Diop', 'Amina', '1990-05-15', 'Dakar', 'cni_amina.jpg'],
-        ['0987654321', 'Sow', 'Ibrahim', '1985-11-22', 'Thiès', 'cni_ibrahim.jpg'],
-        ['1122334455', 'Kane', 'Fatou', '1995-03-08', 'Saint-Louis', 'cni_fatou.jpg']
+        ['1234567890123', 'Diop', 'Amina', '1990-05-15', 'Dakar', 'cni_amina.jpg'],
+        ['0987654321098', 'Sow', 'Ibrahim', '1985-11-22', 'Thiès', 'cni_ibrahim.jpg'],
+        ['1122334455667', 'Kane', 'Fatou', '1995-03-08', 'Saint-Louis', 'cni_fatou.jpg']
     ];
 
     $stmtCitoyen = $pdo->prepare("INSERT INTO citoyen (cni, nom, prenom, date_naissance, lieu_naissance, photo_identite_url) VALUES (?, ?, ?, ?, ?, ?)");
@@ -50,10 +50,10 @@ try {
     // 3. Table journal
     echo "\nInsertion des données dans la table journal...\n";
     $journaux = [
-        ['192.168.1.1', '1453555775475', 'success'],
-        ['192.168.1.2', '1453555775765', 'error'],
-        ['192.168.1.4', '1453555775772', 'success'],
-        ['192.168.1.5', '1453555775771', 'success'],
+        ['192.168.1.1', '1234567890123', 'success'],
+        ['192.168.1.2', '0987654321098', 'error'],
+        ['192.168.1.4', '1122334455667', 'success'],
+        ['192.168.1.5', '1234567890123', 'success'],
     ];
 
     $stmtJournal = $pdo->prepare("INSERT INTO journal (ip_adresse, cni, statut, localisation) VALUES (?, ?, ?, 'Dakar, Sénégal')");
