@@ -12,11 +12,21 @@ class Database{
 
       private function __construct() {
         try {
-           
+            // Parser l'URL PostgreSQL
+            $url = parse_url(dsn);
+            $pdo_dsn = sprintf(
+                "pgsql:host=%s;port=%d;dbname=%s",
+                $url['host'],
+                $url['port'] ?? 5432,
+                ltrim($url['path'], '/')
+            );
+            $user = $url['user'] ?? '';
+            $password = $url['pass'] ?? '';
+            
             $this->connection = new PDO(
-              dsn,
-              DB_USER,
-              DB_PASSWORD,
+              $pdo_dsn,
+              $user,
+              $password,
               [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
