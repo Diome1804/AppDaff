@@ -19,21 +19,29 @@ class CloudService
 
     public function __construct()
     {
-        // Vérifier si Cloudinary est configuré
-        $cloudName = getenv('CLOUDINARY_CLOUD_NAME');
-        $apiKey = getenv('CLOUDINARY_API_KEY');
-        $apiSecret = getenv('CLOUDINARY_API_SECRET');
+        // Utiliser les constantes définies dans env.php
+        $cloudName = CLOUDINARY_CLOUD_NAME;
+        $apiKey = CLOUDINARY_API_KEY;
+        $apiSecret = CLOUDINARY_API_SECRET;
 
-        if ($cloudName && $apiKey && $apiSecret) {
-            $this->cloudinary = new Cloudinary([
-                'cloud' => [
-                    'cloud_name' => $cloudName,
-                    'api_key'    => $apiKey,
-                    'api_secret' => $apiSecret,
-                ],
-            ]);
+        if (!empty($cloudName) && !empty($apiKey) && !empty($apiSecret)) {
+            try {
+                $this->cloudinary = new Cloudinary([
+                    'cloud' => [
+                        'cloud_name' => $cloudName,
+                        'api_key'    => $apiKey,
+                        'api_secret' => $apiSecret,
+                    ],
+                    'url' => [
+                        'secure' => true
+                    ]
+                ]);
+            } catch (\Exception $e) {
+                error_log("Erreur configuration Cloudinary: " . $e->getMessage());
+                $this->cloudinary = null;
+            }
         } else {
-            // Mode test sans Cloudinary
+            error_log("Configuration Cloudinary manquante - Mode test activé");
             $this->cloudinary = null;
         }
     }

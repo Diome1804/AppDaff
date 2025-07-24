@@ -47,9 +47,9 @@ try {
     // 2. Table Citoyen
     echo "Insertion des données dans la table Citoyen...\n";
     $citoyens = [
-        ['1234567890123', 'Diop', 'Amina', '1990-05-15', 'Dakar', 'cni_amina.jpg'],
-        ['0987654321098', 'Sow', 'Ibrahim', '1985-11-22', 'Thiès', 'cni_ibrahim.jpg'],
-        ['1122334455667', 'Kane', 'Fatou', '1995-03-08', 'Saint-Louis', 'cni_fatou.jpg']
+        ['1234567890123', 'Diop', 'Amina', '1990-05-15', 'Dakar', 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&fit=crop&crop=face'],
+        ['0987654321098', 'Sow', 'Ibrahim', '1985-11-22', 'Thiès', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face'],
+        ['1122334455667', 'Kane', 'Fatou', '1995-03-08', 'Saint-Louis', 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face']
     ];
 
     $stmtCitoyen = $pdo->prepare("INSERT INTO citoyen (cni, nom, prenom, date_naissance, lieu_naissance, photo_identite_url) VALUES (?, ?, ?, ?, ?, ?)");
