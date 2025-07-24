@@ -8,12 +8,20 @@ $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
 try {
-    $dsn = $_ENV['DATABASE_URL'] ?? $_ENV['dsn'] ?? "{$_ENV['DB_DRIVER']}:host={$_ENV['DB_HOST']};port={$_ENV['DB_PORT']};dbname={$_ENV['DB_NAME']}";
-    if (isset($_ENV['DATABASE_URL'])) {
-        $pdo = new PDO($dsn);
-    } else {
-        $pdo = new PDO($dsn, $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
-    }
+    $database_url = $_ENV['DATABASE_URL'] ?? $_ENV['dsn'];
+    
+    // Parser l'URL PostgreSQL
+    $url = parse_url($database_url);
+    $pdo_dsn = sprintf(
+        "pgsql:host=%s;port=%d;dbname=%s",
+        $url['host'],
+        $url['port'] ?? 5432,
+        ltrim($url['path'], '/')
+    );
+    $user = $url['user'] ?? '';
+    $password = $url['pass'] ?? '';
+    
+    $pdo = new PDO($pdo_dsn, $user, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     echo "Connexion réussie à la base de données\n";
     } catch (PDOException $e) {
@@ -22,6 +30,10 @@ try {
 
 try {
     $pdo->beginTransaction();
+
+    // 0. Vider les tables existantes
+    echo "Suppression des données existantes...\n";
+    $pdo->exec("TRUNCATE TABLE journal, citoyen RESTART IDENTITY CASCADE");
 
     // 1. Création des ENUMS
     echo "Création des types ENUM...\n";
