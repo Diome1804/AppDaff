@@ -21,7 +21,9 @@ try {
     $citoyens = [
         ['1234567890123', 'Diop', 'Amina', '1990-05-15', 'Dakar', 'cni_amina.jpg'],
         ['0987654321098', 'Sow', 'Ibrahim', '1985-11-22', 'Thiès', 'cni_ibrahim.jpg'],
-        ['1122334455667', 'Kane', 'Fatou', '1995-03-08', 'Saint-Louis', 'cni_fatou.jpg']
+        ['1122334455667', 'Kane', 'Fatou', '1995-03-08', 'Saint-Louis', 'cni_fatou.jpg'],
+        ['2233445566778', 'Fall', 'Moussa', '1988-07-12', 'Kaolack', 'cni_moussa.jpg'],
+        ['3344556677889', 'Ndiaye', 'Aissatou', '1992-12-03', 'Ziguinchor', 'cni_aissatou.jpg']
     ];
 
     $stmt = $pdo->prepare("INSERT INTO citoyen (cni, nom, prenom, date_naissance, lieu_naissance, photo_identite_url) VALUES (?, ?, ?, ?, ?, ?)");
@@ -35,6 +37,8 @@ try {
         ['192.168.1.1', '1234567890123', 'succes'],
         ['192.168.1.2', '0987654321098', 'error'],
         ['192.168.1.4', '1122334455667', 'succes'],
+        ['192.168.1.5', '2233445566778', 'succes'],
+        ['192.168.1.6', '3344556677889', 'error'],
     ];
 
     $stmtJournal = $pdo->prepare("INSERT INTO journal (ip_adresse, cni, statut, localisation) VALUES (?, ?, ?, 'Dakar, Sénégal')");
